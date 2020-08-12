@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<nav class="navbar navbar-light bg-light justify-content-between">
+  <a class="navbar-brand">Gestão de Funcionarios</a>
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+  </form>
+</nav>
+
+<div class="container">
+
+  <div class="funcionariod list-funcionario">
+    <h5 class="card-header">Lista de funcionarios
+	<button id="adicionarbtn" type="button" style="margin-left: 645px" class="btn btn-primary  btn-add-funcionario" data-toggle="modal" data-target="#add-form" (click)="novoFuncionario(funcionario)">Adicionar novo Funcionario</button>
+
+    </h5>
+    
+    <h5 id="adicionar" style="display: none"  class="card-header">Adicionar/Atualizar funcionario
+        <div class="card-body">
+            <form id="add-form" (ngSubmit)="f.form.valid && saveFuncionario(f)" #f="ngForm" novalidate>
+              <div class="form-group">
+                  <label for="nome">Nome</label>
+                  <input type="text" [(ngModel)]="funcionario.nome" id="nome" name="nome" #nome="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && nome.invalid }" placeholder="Digite o nome">
+                  <div *ngIf="f.submitted && nome.invalid" class="invalid-feedback">
+                      <div *ngIf="nome.errors.required">Nome é obrigatório</div>
+                  </div>
+              </div>
+  
+              <div class="form-group">
+                  <label for="sobrenome">Sobrenome</label>
+                  <input type="text" [(ngModel)]="funcionario.sobrenome" id="sobrenome" name="sobrenome" #sobrenome="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && sobrenome.invalid }" placeholder="Digite a sobrenome">
+                  <div *ngIf="f.submitted && sobrenome.invalid" class="invalid-feedback">
+                      <div *ngIf="sobrenome.errors.required">Sobrenome é obrigatória</div>
+                  </div>
+              </div>
+  
+              <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="text" [(ngModel)]="funcionario.email" id="email" name="email" #email="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" placeholder="Digite a email">
+                  <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+                      <div *ngIf="email.errors.required">Email é obrigatória</div>
+                  </div>
+              </div>
+  
+  
+       <div class="form-group">
+                  <label for="genero">Genero</label>
+                  <input type="text" [(ngModel)]="funcionario.genero" id="genero" name="genero" #genero="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && genero.invalid }" placeholder="Digite a genero">
+                  <div *ngIf="f.submitted && genero.invalid" class="invalid-feedback">
+                      <div *ngIf="genero.errors.required">Genero é obrigatória</div>
+                  </div>
+              </div>
+  
+        <div class="form-group">
+                  <label for="cidade">Cidade</label>
+                  <input type="text" [(ngModel)]="funcionario.cidade" id="cidade" name="cidade" #cidade="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && cidade.invalid }" placeholder="Digite a cidade">
+                  <div *ngIf="f.submitted && cidade.invalid" class="invalid-feedback">
+                      <div *ngIf="cidade.errors.required">Cidade é obrigatória</div>
+                  </div>
+              </div>
+  
+         <div class="form-group">
+                  <label for="pais">Pais</label>
+                  <input type="text" [(ngModel)]="funcionario.pais" id="pais" name="pais" #pais="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && pais.invalid }" placeholder="Digite a pais">
+                  <div *ngIf="f.submitted && pais.invalid" class="invalid-feedback">
+                      <div *ngIf="pais.errors.required">Pais é obrigatória</div>
+                  </div>
+              </div>
+  
+        <div class="form-group">
+                  <label for="empresa">Empresa</label>
+                  <input type="text" [(ngModel)]="funcionario.empresa" id="empresa" name="empresa" #empresa="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && empresa.invalid }" placeholder="Digite a empresa">
+                  <div *ngIf="f.submitted && empresa.invalid" class="invalid-feedback">
+                      <div *ngIf="empresa.errors.required">Empresa é obrigatória</div>
+                  </div>
+              </div>
+  
+              <div class="form-group">
+                  <label for="salario">Salario</label>
+                  <input type="number" [(ngModel)]="funcionario.salario" id="salario" name="salario" #salario="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && salario.invalid }" placeholder="Digite o preço">
+                  <div *ngIf="f.submitted && salario.invalid" class="invalid-feedback">
+                      <div *ngIf="salario.errors.required">Salario é obrigatório</div>
+                  </div>
+              </div>
+              <button id="salva" type="submit" class="btn btn-primary btn-add-funcionario">Salvar</button>
+              <button id="cancela" type="reset" class="btn btn-secondary btn-add-funcionario" (click)="cleanForm(f)">Cancelar</button>
+            </form>
+        </div>
+      </h5>
+
+<div class="card-body">
+ 
+      <table class="table">		
+	<thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Sobrenome</th>
+              <th scope="col">Email</th>
+              <th scope="col">Genero</th>
+              <th scope="col">Cidade</th>
+              <th scope="col">Pais</th>
+              <th scope="col">Empresa</th>
+              <th scope="col">Salario</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+	 
+          <tbody>
+            <tr *ngFor="let funcionario of funcionarios | paginate: { itemsPerPage: 5, currentPage: paginaAtual }; let i = index">
+	        
+	      <td>{{funcionario.id}}</td>            
+              <td>{{funcionario.nome}}</td>
+              <td>{{funcionario.sobrenome}}</td>
+              <td>{{funcionario.email}}</td>
+              <td>{{funcionario.genero}}</td>
+              <td>{{funcionario.cidade}}</td>
+              <td>{{funcionario.pais}}</td>
+              <td>{{funcionario.empresa}}</td>
+              <td>{{funcionario.salario | currency}}</td>
+              <td>
+	
+                <button id="alterar" type="button" class="btn btn-warning btn-sm" (click)="editFuncionario(funcionario)">Editar</button>
+                <button id="deletar" type="button" class="btn btn-danger btn-sm ml-1" (click)="deleteFuncionario(funcionario)">Deletar</button>
+              </td>
+            </tr>
+          </tbody>
+	</table>
+    
+	<pagination-controls (pageChange)="paginaAtual = $event" previousLabel="Anterior" nextLabel="Próximo"></pagination-controls>
+  
+    </div>
+</div>
